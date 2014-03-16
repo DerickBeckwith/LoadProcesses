@@ -1,0 +1,10 @@
+CPU bound process proc2 originated at Thu Feb 20 15:04:51 2014
+
+CPU bound process proc2 terminated at Thu Feb 20 15:05:00 2014
+
+CPU bound process proc2 took 9330000 ticks, 9.330000 seconds
+CPU bound process proc1 originated at Thu Feb 20 15:04:51 2014
+
+CPU bound process proc1 terminated at Thu Feb 20 15:05:00 2014
+
+CPU bound process proc1 took 9320000 ticks, 9.320000 seconds

@@ -1,0 +1,4 @@
+#!/bin/bash
+~/comp7500-sp14/LoadProcesses/cpubound proc1&
+~/comp7500-sp14/LoadProcesses/cpubound proc2&
+
