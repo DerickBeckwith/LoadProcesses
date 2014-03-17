@@ -37,7 +37,7 @@ int main(int argc,char *argv[]) {
 
  struct sched_param param;
 
- if (sched_setscheduler(0, SCHED_FIFO, &param) == 0) {
+ if (sched_setscheduler(0, 4, &param) == 0) {
 	 policy = sched_getscheduler(0);
 	 show_policy(policy);
  } else {
