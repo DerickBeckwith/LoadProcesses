@@ -1,8 +1,13 @@
-#include <sched.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sched.h>
+#include <linux/sched.h>
+// for setting to real time priority
+#include <unistd.h>
+// for getpid
+#include <sys/types.h>
 
 #define N 1000 // matrix dimension is N x N
 #define ITERATIONS 10 // how many times to do the multiplication
@@ -32,27 +37,29 @@ void show_policy(int policy) {
 }
 
 int main(int argc,char *argv[]) {
-
- int policy = sched_getscheduler(0);
- show_policy(policy);
-
- struct sched_param param;
-
- if (sched_setscheduler(0, 4, &param) == 0) {
-	 policy = sched_getscheduler(0);
-	 show_policy(policy);
- } else {
-	 fprintf(stdout,"There was an error when trying to change the scheduling policy\n");
- }
-
  char  *myId;
-
  double value; 
 
 
  int i,j,k,n; // index variables
  time_t currTime ; 
- clock_t procTime; 
+ clock_t procTime;
+ pid_t mypid;
+ struct sched_param myparams;
+ int policy;
+ myparams.sched_priority = 50;
+
+ mypid = getpid();
+ policy = sched_getscheduler(mypid);
+ show_policy(policy);
+
+  if (sched_setscheduler(mypid, SCHED_RR, &myparams) == 0) {
+ 	 policy = sched_getscheduler(mypid);
+ 	 show_policy(policy);
+  } else {
+ 	 fprintf(stdout,"There was an error when trying to change the scheduling policy\n");
+  }
+
  // set the ID string 
 
  if (argc > 1) { 
