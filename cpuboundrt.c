@@ -53,7 +53,7 @@ int main(int argc,char *argv[]) {
  policy = sched_getscheduler(mypid);
  show_policy(policy);
 
-  if (sched_setscheduler(mypid, SCHED_RR, &myparams) == 0) {
+  if (sched_setscheduler(mypid, 4, &myparams) == 0) {
  	 policy = sched_getscheduler(mypid);
  	 show_policy(policy);
   } else {

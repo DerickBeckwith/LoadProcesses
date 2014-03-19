@@ -1,8 +1,13 @@
-#include <sched.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sched.h>
+#include <linux/sched.h>
+// for setting to real time priority
+#include <unistd.h>
+// for getpid
+#include <sys/types.h>
 
 #define ITERATIONS 1000 // how many times to do the  file operation
 #define FILENAMEBASE "loadTempFile"
@@ -31,19 +36,6 @@ void show_policy(int policy) {
 }
 
 int main(int argc,char *argv[]) {
-
- int policy = sched_getscheduler(0);
- show_policy(policy);
-
- struct sched_param param;
-
- if (sched_setscheduler(0, 4, &param) == 0) {
-	 policy = sched_getscheduler(0);
-	 show_policy(policy);
- } else {
-	 fprintf(stdout,"There was an error when trying to change the scheduling policy\n");
- }
-
  char  *myId;
  char c; 
 
@@ -52,6 +44,22 @@ int main(int argc,char *argv[]) {
  int i,j,k,n; // index variables
  time_t currTime ;  // wall-clock time variable 
  clock_t procTime;  // ticks since process began
+ pid_t mypid;
+ struct sched_param myparams;
+ int policy;
+ myparams.sched_priority = 50;
+
+ mypid = getpid();
+ policy = sched_getscheduler(mypid);
+ show_policy(policy);
+
+  if (sched_setscheduler(mypid, 4, &myparams) == 0) {
+  	 policy = sched_getscheduler(mypid);
+  	 show_policy(policy);
+  } else {
+  	 fprintf(stdout,"There was an error when trying to change the scheduling policy\n");
+  }
+
  FILE *fp; // file pointer 
  char *filename; 
  
